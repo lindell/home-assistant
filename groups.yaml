@@ -1,0 +1,29 @@
+everyone:
+  name: Johan and Andrea
+  entities:
+    - device_tracker.johan_phone
+    - device_tracker.andrea_phone
+
+living_room:
+  name: Living Room
+  entities:
+    - light.living_room_ceiling
+    - light.living_room_window
+    - light.living_room_floor
+    - light.bookshelf
+
+kitchen:
+  name: Kitchen
+  entities:
+    - light.kitchen
+
+bedroom:
+  name: Bedroom
+  entities:
+    - light.johan_bedroom
+    - light.andrea_bedroom
+
+hallway:
+  name: Hallway
+  entities:
+    - light.hallway_ceiling

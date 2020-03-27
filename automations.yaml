@@ -1,0 +1,151 @@
+- alias: "Away Mode"
+  trigger:
+    platform: state
+    entity_id: group.everyone
+    from: "home"
+    to: "not_home"
+  action:
+    - service: light.turn_off
+      entity_id: all
+
+- alias: "Comming home"
+  trigger:
+    platform: state
+    entity_id: group.everyone
+    from: "not_home"
+    to: "home"
+  action:
+    service: scene.turn_on
+    entity_id: scene.coming_home
+
+- alias: "Playing TV"
+  trigger:
+    platform: state
+    entity_id: media_player.living_room_tv
+    to: "playing"
+  condition:
+    - condition: time
+      after: "12:00:00"
+      before: "00:00:00"
+  action:
+    service: script.turn_on
+    entity_id: script.play_tv
+
+- alias: "Stop playing TV"
+  trigger:
+    - platform: state
+      entity_id: media_player.living_room_tv
+      from: "playing"
+      to: "off"
+    - platform: state
+      entity_id: media_player.living_room_tv
+      from: "playing"
+      to: "paused"
+    - platform: state
+      entity_id: media_player.living_room_tv
+      from: "playing"
+      to: "idle"
+  condition:
+    - condition: time
+      after: "12:00:00"
+      before: "00:00:00"
+  action:
+    service: script.turn_on
+    entity_id: script.stop_tv
+
+- alias: Door black button click
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da7370a5 # Door black button
+      click_type: single
+  action:
+    - service: script.play_playlist
+      data:
+        playlist_name: Songs to Sing in the Shower
+
+- alias: Door black button long click
+  trigger:
+    platform: event
+    event_type: flic_click
+    event_data:
+      button_name: flic_80e4da7370a5 # Door black button
+      click_type: double
+  action:
+    - service: script.play_playlist
+      data:
+        playlist_name: Pure Rock & Roll
+
+- alias: "Johan room light on"
+  trigger:
+    platform: state
+    entity_id: light.johans_room
+    to: "on"
+    from: "off"
+  action:
+    - service: switch.turn_on
+      data:
+        entity_id: switch.johan_monitors
+- alias: "Johan room light off"
+  trigger:
+    platform: state
+    entity_id: light.johans_room
+    to: "off"
+    from: "on"
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: switch.johan_monitors
+- alias: "Johan screens on"
+  trigger:
+    platform: state
+    entity_id: switch.johan_monitors
+    to: "on"
+    from: "off"
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: light.johans_room
+- alias: "Johan screens off"
+  trigger:
+    platform: state
+    entity_id: switch.johan_monitors
+    to: "off"
+    from: "on"
+  action:
+    - service: light.turn_off
+      data:
+        entity_id: light.johans_room
+
+- alias: Andrea Morning
+  trigger:
+    platform: time
+    at: "06:00:00"
+  condition:
+    condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.living_room_speakers
+        volume_level: "0.15"
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.bathroom_speaker
+        volume_level: "0.25"
+    - service: tv4_play.play_suggested
+      entity_id: media_player.living_room_tv
+      data:
+        program_name: nyhetsmorgon
+    - service: scene.turn_on
+      entity_id: scene.morning
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.living_room_tv
+        volume_level: "1"

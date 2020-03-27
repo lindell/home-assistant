@@ -1,0 +1,97 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+homeassistant:
+  customize: !include customize.yaml
+
+http:
+  base_url: https://home.lindell.me
+
+logger:
+  default: warning
+  logs:
+    homeassistant.components.mqtt: debug
+
+cast:
+
+# vacuum:
+#   - platform: xiaomi_miio
+#     host: 192.168.1.106
+#     token: !secret tuss_token
+
+spotify:
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_client_secret
+
+mqtt:
+  broker: localhost
+  discovery: true
+  discovery_prefix: homeassistant
+
+sensor:
+  - platform: hasl
+    ri4key: !secret ri4key
+    si2key: !secret si2key
+    tl2key: !secret tl2key
+    scan_interval: 10
+    sensors:
+      # - friendly_name: Årstaberg
+      #   sensor_type: departures
+      #   siteid: 9531
+      #   traffic_class: train
+      #   direction: 2
+      #   scan_interval: 300
+      - friendly_name: Hildebergsvägen
+        sensor_type: departures
+        siteid: 1626
+        direction: 2
+        traffic_class: bus
+        scan_interval: 600
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+asuswrt:
+  host: 192.168.1.1
+  username: admin
+  password: !secret asus_router_password
+
+device_tracker:
+  - platform: asuswrt
+    consider_home: 480
+    new_device_defaults:
+      track_new_devices: false
+  # - platform: bluetooth_le_tracker
+  #   track_new_devices: true
+
+binary_sensor:
+  - platform: flic
+
+switch:
+  - platform: mqtt
+    name: "Johan Monitors"
+    command_topic: "johan-pc/monitor/all/power/command"
+    state_topic: "johan-pc/monitor/all/power/state"
+
+person:
+  - name: Johan
+    id: johan
+    device_trackers:
+      - device_tracker.pixel_3
+  - name: Andrea
+    id: andrea
+    device_trackers:
+      - device_tracker.sm_g975f
+
+scene: !include scenes.yaml
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+
+tv4_play:
+
+svt_play:
+
+hacs:
+  token: !secret hacs_github_token

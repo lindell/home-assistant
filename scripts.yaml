@@ -1,0 +1,67 @@
+stop_tv:
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: group.living_room
+        brightness: 100
+        transition: 2
+
+play_tv:
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: group.living_room
+        brightness: 25
+        transition: 2
+
+go_to_bed_time:
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: group.bedroom
+        brightness: 65
+        kelvin: 2500
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.johans_room
+          - group.living_room
+          - group.kitchen
+          - group.hallway
+        transition: 900
+
+sussi_time:
+  sequence:
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.andrea_bedroom
+        transition: 10
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.johan_bedroom
+        transition: 300
+
+play_playlist:
+  fields:
+    playlist_name:
+      description: "Sonos favorited playlist"
+      example: "Kitchen music"
+  sequence:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.living_room_speakers
+        volume_level: "0.30"
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.bathroom_speaker
+        volume_level: "0.40"
+    - service: media_player.shuffle_set
+      entity_id: media_player.living_room_speakers
+      data:
+        shuffle: true
+    - service: media_player.select_source
+      entity_id: media_player.living_room_speakers
+      data_template:
+        source: "{{ playlist_name }}"
