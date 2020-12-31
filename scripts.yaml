@@ -31,17 +31,40 @@ go_to_bed_time:
         transition: 900
 
 sussi_time:
+  alias: Sussi time
   sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.johan_bedroom
+        brightness: 65
+        kelvin: 2500
+        transition: 2
     - service: light.turn_off
       data:
         entity_id:
           - light.andrea_bedroom
-        transition: 10
+          - light.bedroom_ceiling
+        transition: 2
+    - delay: 10
     - service: light.turn_off
       data:
         entity_id:
           - light.johan_bedroom
         transition: 300
+
+play_shower:
+  alias: Shower Songs
+  sequence:
+    - service: script.play_playlist
+      data:
+        playlist_name: Songs to Sing in the Shower
+
+play_happy:
+  alias: Life is Good
+  sequence:
+    - service: script.play_playlist
+      data:
+        playlist_name: Life is good!
 
 play_playlist:
   fields:
@@ -57,6 +80,10 @@ play_playlist:
       data:
         entity_id: media_player.bathroom_speaker
         volume_level: "0.40"
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.kitchen_speaker
+        volume_level: "0.53"
     - service: media_player.shuffle_set
       entity_id: media_player.living_room_speakers
       data:
@@ -65,3 +92,11 @@ play_playlist:
       entity_id: media_player.living_room_speakers
       data_template:
         source: "{{ playlist_name }}"
+
+disable_pihole:
+  alias: Disable Pi-hole
+  sequence:
+    - service: pi_hole.disable
+      data:
+        entity_id: All
+        duration: '00:00:60'

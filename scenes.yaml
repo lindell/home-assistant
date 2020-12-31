@@ -1,31 +1,130 @@
-- name: Coming home
+- id: coming-home
+  name: Coming home
   entities:
-    group.living_room:
-      state: on
-      brightness: 100
-
+    light.living_room:
+      min_mireds: 250
+      max_mireds: 454
+      brightness: 118
+      color_temp: 369
+      hs_color:
+      - 30
+      - 42.353
+      rgb_color:
+      - 255
+      - 200
+      - 146
+      xy_color:
+      - 0.442
+      - 0.378
+      entity_id:
+      - light.living_room_ceiling
+      - light.living_room_window
+      - light.living_room_floor
+      - light.bookshelf
+      - light.modulated_tv_light
+      friendly_name: Living room
+      icon: mdi:lightbulb-group
+      supported_features: 51
+      state: 'on'
+    light.hallway:
+      min_mireds: 250
+      max_mireds: 454
+      brightness: 66
+      color_temp: 370
+      entity_id:
+      - light.hallway_ceiling
+      friendly_name: Hallway
+      icon: mdi:lightbulb-group
+      supported_features: 35
+      state: 'on'
 - name: Playing TV
+  id: playing-tv
   entities:
-    group.living_room:
-      state: on
+    light.living_room:
+      state: true
       brightness: 25
-
 - name: Stop playing TV
+  id: stop-playing-tv
   entities:
-    group.living_room:
-      state: on
+    light.living_room:
+      state: true
       brightness: 125
-
-- name: Morning
+- id: morning
+  name: Morning
   entities:
-    group.living_room:
-      state: on
-      brightness: 100
-
-- name: Cozy
+    light.living_room:
+      min_mireds: 250
+      max_mireds: 454
+      brightness: 112
+      color_temp: 370
+      hs_color:
+      - 30
+      - 28.235
+      rgb_color:
+      - 255
+      - 219
+      - 183
+      xy_color:
+      - 0.396
+      - 0.363
+      entity_id:
+      - light.living_room_ceiling
+      - light.living_room_window
+      - light.living_room_floor
+      - light.bookshelf
+      - light.modulated_tv_light
+      friendly_name: Living room
+      icon: mdi:lightbulb-group
+      supported_features: 51
+      state: 'on'
+    light.kitchen:
+      min_mireds: 250
+      max_mireds: 454
+      brightness: 78
+      color_temp: 382
+      entity_id:
+      - light.kitchen_table
+      - light.kitchen_spots
+      friendly_name: Kitchen
+      icon: mdi:lightbulb-group
+      supported_features: 35
+      state: 'on'
+- id: '1609333600276'
+  name: Coming home
   entities:
-    group.living_room:
-      state: on
-      brightness: 25
-    group.hallway:
-      state: off
+    light.hallway:
+      min_mireds: 250
+      max_mireds: 454
+      brightness: 54
+      color_temp: 370
+      entity_id:
+      - light.hallway_ceiling
+      friendly_name: Hallway
+      icon: mdi:lightbulb-group
+      supported_features: 35
+      state: 'on'
+    light.living_room:
+      min_mireds: 250
+      max_mireds: 454
+      brightness: 115
+      color_temp: 369
+      hs_color:
+      - 30
+      - 42.353
+      rgb_color:
+      - 255
+      - 200
+      - 146
+      xy_color:
+      - 0.442
+      - 0.378
+      entity_id:
+      - light.living_room_ceiling
+      - light.living_room_window
+      - light.living_room_floor
+      - light.bookshelf
+      - light.modulated_tv_light
+      friendly_name: Living room
+      icon: mdi:lightbulb-group
+      supported_features: 51
+      state: 'on'

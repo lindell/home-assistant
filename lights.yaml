@@ -1,0 +1,66 @@
+- platform: template
+  lights:
+    modulated_tv_light:
+      friendly_name: "Modulated TV Light"
+      level_template: "{{ (state_attr('light.tv_light', 'brightness') * 10) }}"
+      color_template: "{{state_attr('light.tv_light', 'hs_color')}}"
+      turn_on:
+        service: light.turn_on
+        data:
+          entity_id: light.tv_light
+      turn_off:
+        service: light.turn_off
+        data:
+          entity_id: light.tv_light
+      set_level:
+        service: light.turn_on
+        data_template:
+          entity_id: light.tv_light
+          brightness: "{{ (brightness / 10) | int }}"
+      set_color:
+        service: light.turn_on
+        data_template:
+          entity_id: light.tv_light
+          hs_color:
+            - "{{ h }}"
+            - "{{ s }}"
+
+- platform: switch
+  name: Living room window
+  entity_id: switch.living_room_window
+
+
+- platform: group
+  name: Living room
+  entities:
+    - light.living_room_ceiling
+    - light.living_room_window
+    - light.living_room_floor
+    - light.bookshelf
+    - light.modulated_tv_light
+
+- platform: group
+  name: Bedroom
+  entities:
+    - light.johan_bedroom
+    - light.andrea_bedroom
+    - light.bedroom_ceiling
+
+- platform: group
+  name: Hallway
+  entities:
+    - light.hallway_ceiling
+
+- platform: group
+  name: Kitchen Spots
+  entities:
+    - light.kitchen_spot_1
+    - light.kitchen_spot_2
+    - light.kitchen_spot_3
+    - light.kitchen_spot_4
+
+- platform: group
+  name: Kitchen
+  entities:
+    - light.kitchen_table
+    - light.kitchen_spots

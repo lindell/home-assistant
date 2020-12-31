@@ -4,26 +4,12 @@ everyone:
     - device_tracker.johan_phone
     - device_tracker.andrea_phone
 
-living_room:
-  name: Living Room
+garmin:
+  name: Garmin group
   entities:
-    - light.living_room_ceiling
-    - light.living_room_window
-    - light.living_room_floor
-    - light.bookshelf
-
-kitchen:
-  name: Kitchen
-  entities:
+    - light.living_room
     - light.kitchen
-
-bedroom:
-  name: Bedroom
-  entities:
-    - light.johan_bedroom
-    - light.andrea_bedroom
-
-hallway:
-  name: Hallway
-  entities:
-    - light.hallway_ceiling
+    - light.johans_room
+    - light.hallway
+    - light.bedroom
+    - script.play_happy

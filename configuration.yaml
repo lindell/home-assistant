@@ -28,7 +28,21 @@ mqtt:
   discovery: true
   discovery_prefix: homeassistant
 
+input_datetime:
+  next_johan_alarm:
+    name: Next scheduled alarm on Johans phone
+    has_date: true
+    has_time: true
+
 sensor:
+  - platform: time_date
+    display_options:
+      - "date_time"
+  - platform: mitemp_bt
+    mac: "58:2D:34:38:92:42"
+    name: south_balcony_sensor
+    scan_interval: 60
+    adapter: hci1
   - platform: hasl
     ri4key: !secret ri4key
     si2key: !secret si2key
@@ -52,6 +66,11 @@ sensor:
 tts:
   - platform: google_translate
 
+notify:
+  - name: johan_pushbullet
+    platform: pushbullet
+    api_key: !secret pushpullet
+
 asuswrt:
   host: 192.168.1.1
   username: admin
@@ -63,7 +82,16 @@ device_tracker:
     new_device_defaults:
       track_new_devices: false
   # - platform: bluetooth_le_tracker
-  #   track_new_devices: true
+  #   track_new_devices: false
+
+pi_hole:
+  - host: 'localhost:8081'
+    api_key: !secret pi_hole_api_key
+
+yeelight:
+  devices:
+    192.168.1.20:
+      name: TV Light
 
 binary_sensor:
   - platform: flic
@@ -88,6 +116,8 @@ scene: !include scenes.yaml
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
+light: !include lights.yaml
+
 
 tv4_play:
 

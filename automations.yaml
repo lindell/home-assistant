@@ -1,151 +1,339 @@
-- alias: "Away Mode"
+- alias: Away Mode
+  id: away-mode
   trigger:
     platform: state
     entity_id: group.everyone
-    from: "home"
-    to: "not_home"
+    from: home
+    to: not_home
   action:
-    - service: light.turn_off
-      entity_id: all
-
-- alias: "Comming home"
+  - service: light.turn_off
+    entity_id: all
+- alias: Comming home
+  id: comming-home
   trigger:
     platform: state
     entity_id: group.everyone
-    from: "not_home"
-    to: "home"
+    from: not_home
+    to: home
   action:
     service: scene.turn_on
     entity_id: scene.coming_home
-
-- alias: "Playing TV"
+- alias: Playing TV
+  id: playing-tv
   trigger:
     platform: state
     entity_id: media_player.living_room_tv
-    to: "playing"
+    to: playing
   condition:
-    - condition: time
-      after: "12:00:00"
-      before: "00:00:00"
+  - condition: time
+    after: '12:00:00'
+    before: 00:00:00
   action:
     service: script.turn_on
     entity_id: script.play_tv
-
-- alias: "Stop playing TV"
+- alias: Stop playing TV
+  id: stop-playing-tv
   trigger:
-    - platform: state
-      entity_id: media_player.living_room_tv
-      from: "playing"
-      to: "off"
-    - platform: state
-      entity_id: media_player.living_room_tv
-      from: "playing"
-      to: "paused"
-    - platform: state
-      entity_id: media_player.living_room_tv
-      from: "playing"
-      to: "idle"
+  - platform: state
+    entity_id: media_player.living_room_tv
+    from: playing
+    to: 'off'
+  - platform: state
+    entity_id: media_player.living_room_tv
+    from: playing
+    to: paused
+  - platform: state
+    entity_id: media_player.living_room_tv
+    from: playing
+    to: idle
   condition:
-    - condition: time
-      after: "12:00:00"
-      before: "00:00:00"
+  - condition: time
+    after: '12:00:00'
+    before: 00:00:00
   action:
     service: script.turn_on
     entity_id: script.stop_tv
-
 - alias: Door black button click
+  id: door-black-button-click
   trigger:
     platform: event
     event_type: flic_click
     event_data:
-      button_name: flic_80e4da7370a5 # Door black button
+      button_name: flic_80e4da7370a5
       click_type: single
   action:
-    - service: script.play_playlist
-      data:
-        playlist_name: Songs to Sing in the Shower
-
+  - service: script.play_playlist
+    data:
+      playlist_name: Songs to Sing in the Shower
 - alias: Door black button long click
+  id: door-black-button-long-click
   trigger:
     platform: event
     event_type: flic_click
     event_data:
-      button_name: flic_80e4da7370a5 # Door black button
+      button_name: flic_80e4da7370a5
       click_type: double
   action:
-    - service: script.play_playlist
-      data:
-        playlist_name: Pure Rock & Roll
-
-- alias: "Johan room light on"
+  - service: script.play_playlist
+    data:
+      playlist_name: Pure Rock & Roll
+- alias: Johan room light on
+  id: johan-room-light-on
   trigger:
     platform: state
     entity_id: light.johans_room
-    to: "on"
-    from: "off"
+    to: 'on'
+    from: 'off'
   action:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.johan_monitors
-- alias: "Johan room light off"
+  - service: switch.turn_on
+    data:
+      entity_id: switch.johan_monitors
+- alias: Johan room light off
+  id: johan-room-light-off
   trigger:
     platform: state
     entity_id: light.johans_room
-    to: "off"
-    from: "on"
+    to: 'off'
+    from: 'on'
   action:
-    - service: switch.turn_off
-      data:
-        entity_id: switch.johan_monitors
-- alias: "Johan screens on"
+  - service: switch.turn_off
+    data:
+      entity_id: switch.johan_monitors
+- alias: Johan screens on
+  id: johan-screens-on
   trigger:
     platform: state
     entity_id: switch.johan_monitors
-    to: "on"
-    from: "off"
+    to: 'on'
+    from: 'off'
   action:
-    - service: light.turn_on
-      data:
-        entity_id: light.johans_room
-- alias: "Johan screens off"
+  - service: light.turn_on
+    data:
+      entity_id: light.johans_room
+- alias: Johan screens off
+  id: johan-screens-off
   trigger:
     platform: state
     entity_id: switch.johan_monitors
-    to: "off"
-    from: "on"
+    to: 'off'
+    from: 'on'
   action:
-    - service: light.turn_off
-      data:
-        entity_id: light.johans_room
-
+  - service: light.turn_off
+    data:
+      entity_id: light.johans_room
 - alias: Andrea Morning
+  id: andrea-morning
   trigger:
     platform: time
-    at: "06:00:00"
+    at: 06:01:00
   condition:
     condition: time
     weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
   action:
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.living_room_speakers
-        volume_level: "0.15"
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.bathroom_speaker
-        volume_level: "0.25"
-    - service: tv4_play.play_suggested
+  - service: scene.turn_on
+    entity_id: scene.morning
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.living_room_speakers
+      volume_level: '0.13'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.bathroom_speaker
+      volume_level: '0.13'
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.kitchen_speaker
+      volume_level: '0.13'
+  - service: tv4_play.play_suggested
+    entity_id: media_player.living_room_tv
+    data:
+      program_name: nyhetsmorgon
+  - service: media_player.volume_set
+    data:
       entity_id: media_player.living_room_tv
-      data:
-        program_name: nyhetsmorgon
-    - service: scene.turn_on
-      entity_id: scene.morning
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.living_room_tv
-        volume_level: "1"
+      volume_level: '1'
+- alias: Restart HA
+  id: restart-ha
+  trigger:
+    platform: time
+    at: 02:00:00
+  action:
+  - service: homeassistant.restart
+- id: open-door
+  alias: Open door
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: 86fc613dc9304ad5e33dfbebd0bcb8d6
+    entity_id: binary_sensor.window_door_sensor
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 1
+  condition:
+    condition: not
+    conditions:
+    - condition: state
+      entity_id: group.everyone
+      state: home
+      for:
+        minutes: 7
+  action:
+  - scene: scene.coming_home
+  mode: single
+- id: 'cube-side-1'
+  alias: Cube Side 1
+  description: ''
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 1001
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 1002
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 1003
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 1004
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 1005
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 1006
+  condition: []
+  action:
+  - service: script.play_playlist
+    data:
+      playlist_name: Life is good!
+  mode: single
+- id: 'cube-side-4'
+  alias: Cube Side 4
+  description: ''
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 4001
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 4002
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 4003
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 4004
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 4005
+  - platform: event
+    event_type: ''
+    event_data:
+      event: 4006
+  condition: []
+  action:
+  - service: script.play_playlist
+    data:
+      playlist_name: Kitchen Music
+- id: 'cube-side-5'
+  alias: Cube Side 5
+  description: ''
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 5001
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 5002
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 5003
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 5004
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 5005
+  - platform: event
+    event_type: ''
+    event_data:
+      event: 5006
+  condition: []
+  action:
+  - service: media_player.media_pause
+    data: {}
+    entity_id: media_player.living_room_speakers
+  mode: single
+- id: 'cube-side-3'
+  alias: Cube Side 3
+  description: ''
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 3001
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 3002
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 3003
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 3004
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 3005
+  - platform: event
+    event_type: ''
+    event_data:
+      event: 3006
+  condition: []
+  action:
+  - service: script.play_playlist
+    data:
+      playlist_name: Pure Rock & Roll
+  mode: single
+- id: 'cube-shake'
+  alias: Cube Shake
+  description: ''
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      event: 7007
+  condition: []
+  action:
+  - service: media_player.media_play_pause
+    data: {}
+    entity_id: media_player.living_room_speakers
+  mode: single
